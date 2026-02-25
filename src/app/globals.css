@@ -1,21 +1,189 @@
 @import "tailwindcss";
 
+/* ===== Design Tokens ===== */
 :root {
-  --background: #F7F4EE;
-  --foreground: #2B2B2B;
-  --primary: #1F2A44;
+  /* Neutrals — warm stone family */
+  --background: #FAFAF7;
+  --foreground: #1A1816;
+  --surface: #FFFFFF;
+  --surface-alt: #F5F3EF;
+  --muted: #6B6462;
+  --faint: #A8A29E;
+  --border: #E8E5E1;
+
+  /* Accent — Burnt Sienna */
+  --accent: #C2652A;
+  --accent-hover: #A8551F;
+  --accent-light: #FDF0E8;
+
+  /* Secondary — Forest Teal */
+  --secondary: #1B7A6E;
+  --secondary-hover: #15665C;
+  --secondary-light: #E6F5F2;
+
+  /* Gold — Warm Amber */
+  --gold: #D4960A;
+  --gold-light: #FEF7E6;
 }
 
+/* ===== Tailwind v4 Theme Registration ===== */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-light: var(--accent-light);
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-light: var(--secondary-light);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --font-sans: var(--font-plus-jakarta);
+  --font-serif: var(--font-dm-serif);
+}
+
+/* ===== Base Styles ===== */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: white;
+}
+
+/* ===== Keyframe Animations ===== */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+@keyframes float-reverse {
+  0%, 100% { transform: translateY(-16px); }
+  50% { transform: translateY(0px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-up-delayed {
+  0%, 30% { opacity: 0; transform: translateY(24px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Animation Utilities ===== */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: float-reverse 7s ease-in-out infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2.5s ease-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in-up-delayed {
+  animation: fade-in-up-delayed 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ===== Scroll Reveal ===== */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger-child {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-on-scroll.revealed .stagger-child {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-on-scroll.revealed .stagger-child:nth-child(1) { transition-delay: 0ms; }
+.reveal-on-scroll.revealed .stagger-child:nth-child(2) { transition-delay: 100ms; }
+.reveal-on-scroll.revealed .stagger-child:nth-child(3) { transition-delay: 200ms; }
+.reveal-on-scroll.revealed .stagger-child:nth-child(4) { transition-delay: 300ms; }
+.reveal-on-scroll.revealed .stagger-child:nth-child(5) { transition-delay: 400ms; }
+
+/* ===== Background Patterns ===== */
+.dot-grid {
+  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dot-grid-light {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ===== Gradient Text ===== */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--gold) 50%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== Custom Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--faint);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }
