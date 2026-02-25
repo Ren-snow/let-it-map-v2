@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -29,7 +31,9 @@ export default function RootLayout({
       <body
         className={`${plusJakarta.variable} ${dmSerif.variable} font-sans antialiased`}
       >
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );

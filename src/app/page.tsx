@@ -234,27 +234,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen overflow-x-hidden">
-      {/* ───── HEADER ───── */}
-      <header className="fixed top-0 z-50 w-full border-b border-border/50 bg-background/70 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-white">
-              <PinSvg className="h-4 w-4" />
-            </div>
-            <span className="text-lg font-bold tracking-tight">
-              Let It Map
-            </span>
-          </div>
-
-          <Link
-            href="/api/auth/signin"
-            className="rounded-xl bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-all hover:opacity-90 active:scale-[0.98]"
-          >
-            Sign In
-          </Link>
-        </div>
-      </header>
-
       {/* ───── HERO ───── */}
       <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-20">
         {/* Background: dot grid */}
@@ -481,19 +460,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───── FOOTER ───── */}
-      <footer className="border-t border-border bg-background px-6 py-8">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-sm text-muted sm:flex-row">
-          <div className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-accent text-white">
-              <PinSvg className="h-3 w-3" />
-            </div>
-            <span className="font-semibold text-foreground">Let It Map</span>
-          </div>
-          <p>&copy; 2026 Let It Map. All rights reserved.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
