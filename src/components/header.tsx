@@ -18,8 +18,8 @@ function PinSvg({ className }: { className?: string }) {
 
 export function Header() {
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-border/50 bg-background/70 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+    <header className="fixed top-0 z-50 h-header w-full border-b border-border/50 bg-background/70 backdrop-blur-xl">
+      <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
         <div className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-white">
             <PinSvg className="h-4 w-4" />
@@ -30,7 +30,7 @@ export function Header() {
         </div>
 
         <Link
-          href="/api/auth/signin"
+          href="/signin"
           className="rounded-xl bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-all hover:opacity-90 active:scale-[0.98]"
         >
           Sign In

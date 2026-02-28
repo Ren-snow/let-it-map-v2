@@ -32,7 +32,7 @@ export default function RootLayout({
         className={`${plusJakarta.variable} ${dmSerif.variable} font-sans antialiased`}
       >
         <Header />
-        {children}
+        <main className="pt-header">{children}</main>
         <Footer />
       </body>
     </html>
