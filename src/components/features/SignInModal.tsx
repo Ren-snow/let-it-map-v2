@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
 import { handleSignIn } from "@/actions/auth";
+import { Modal } from "@/components/ui/Modal";
 
 function GoogleIcon({ className }: { className?: string }) {
   return (
@@ -35,34 +35,8 @@ function PinIcon({ className }: { className?: string }) {
 }
 
 export function SignInModal({ onClose }: { onClose: () => void }) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    dialog.showModal();
-
-    return () => {
-      dialog.close();
-    };
-  }, []);
-
-  const handleBackdropClick = useCallback(
-    (e: React.MouseEvent<HTMLDialogElement>) => {
-      if (e.target === dialogRef.current) {
-        onClose();
-      }
-    },
-    [onClose],
-  );
-
   return (
-    <dialog
-      ref={dialogRef}
-      onClick={handleBackdropClick}
-      onCancel={onClose}
-      className="fixed inset-0 m-auto w-full max-w-sm rounded-2xl border border-border bg-surface p-0 shadow-xl backdrop:bg-foreground/40 backdrop:backdrop-blur-sm"
-    >
+    <Modal onClose={onClose}>
       <div className="flex flex-col items-center px-8 py-10">
         {/* Logo & Heading */}
         <div className="mb-8 text-center">
@@ -105,6 +79,6 @@ export function SignInModal({ onClose }: { onClose: () => void }) {
           By signing in, you agree to our Terms and Privacy Policy
         </p>
       </div>
-    </dialog>
+    </Modal>
   );
 }

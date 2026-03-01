@@ -1,37 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
 import { handleSignOut } from "@/actions/auth";
+import { Modal } from "@/components/ui/Modal";
 
 export function SignOutModal({ onClose }: { onClose: () => void }) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    dialog.showModal();
-
-    return () => {
-      dialog.close();
-    };
-  }, []);
-
-  const handleBackdropClick = useCallback(
-    (e: React.MouseEvent<HTMLDialogElement>) => {
-      if (e.target === dialogRef.current) {
-        onClose();
-      }
-    },
-    [onClose],
-  );
-
   return (
-    <dialog
-      ref={dialogRef}
-      onClick={handleBackdropClick}
-      onCancel={onClose}
-      className="fixed inset-0 m-auto w-full max-w-sm rounded-2xl border border-border bg-surface p-0 shadow-xl backdrop:bg-foreground/40 backdrop:backdrop-blur-sm"
-    >
+    <Modal onClose={onClose}>
       <div className="flex flex-col items-center gap-6 px-8 py-10">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent-light text-accent">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-6 w-6">
@@ -67,6 +41,6 @@ export function SignOutModal({ onClose }: { onClose: () => void }) {
           </button>
         </div>
       </div>
-    </dialog>
+    </Modal>
   );
 }
