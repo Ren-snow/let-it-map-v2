@@ -26,8 +26,8 @@
   --gold-light: #FEF7E6;
 
   /* Layout */
-  --header-height: 9rem;
-  --footer-height: 10rem;
+  --header-height: 5rem;
+  --footer-height: 5rem;
 }
 
 /* ===== Tailwind v4 Theme Registration ===== */

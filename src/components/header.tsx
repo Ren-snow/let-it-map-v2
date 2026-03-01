@@ -1,4 +1,6 @@
-import Link from "next/link";
+import { auth } from "@/lib/auth";
+import { SignInButton } from "@/components/features/SignInButton";
+import { SignOutButton } from "@/components/features/SignOutButton";
 
 function PinSvg({ className }: { className?: string }) {
   return (
@@ -16,7 +18,8 @@ function PinSvg({ className }: { className?: string }) {
   );
 }
 
-export function Header() {
+export async function Header() {
+  const session = await auth();
   return (
     <header className="fixed top-0 z-50 h-header w-full border-b border-border/50 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
@@ -28,13 +31,11 @@ export function Header() {
             Let It Map
           </span>
         </div>
-
-        <Link
-          href="/signin"
-          className="rounded-xl bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-all hover:opacity-90 active:scale-[0.98]"
-        >
-          Sign In
-        </Link>
+        {session ? (
+          <SignOutButton />
+        ) : (
+          <SignInButton />
+        )}
       </div>
     </header>
   );
