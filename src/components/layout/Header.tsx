@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { SignInButton } from "@/components/features/SignInButton";
 import { SignOutButton } from "@/components/features/SignOutButton";
@@ -23,19 +24,32 @@ export async function Header() {
   return (
     <header className="fixed top-0 z-50 h-header w-full border-b border-border/50 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
-        <div className="flex items-center gap-2.5">
+        <Link href="/" className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-white">
             <PinSvg className="h-4 w-4" />
           </div>
           <span className="text-lg font-bold tracking-tight">
             Let It Map
           </span>
+        </Link>
+        <div className="flex items-center gap-6">
+          <nav className="flex items-center gap-6">
+            <Link href="/about" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+              About
+            </Link>
+            <Link href="/maps" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+              Maps
+            </Link>
+            <Link href="/posts" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+              Posts
+            </Link>
+          </nav>
+          {session ? (
+            <SignOutButton />
+          ) : (
+            <SignInButton />
+          )}
         </div>
-        {session ? (
-          <SignOutButton />
-        ) : (
-          <SignInButton />
-        )}
       </div>
     </header>
   );
