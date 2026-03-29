@@ -31,7 +31,7 @@ export function CreatePostForm() {
             return;
           }
           e.preventDefault();
-          const fd = new FormData(formRef.current!);
+          const fd = new FormData(e.currentTarget);
           setPreview({
             title: fd.get("title") as string,
             description: fd.get("description") as string,
