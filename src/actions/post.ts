@@ -46,11 +46,30 @@ export async function getPosts(userId?: string): Promise<PostWithDetails[]> {
   }));
 }
 
-export async function createPost(formData: FormData) {
+export type CreatePostState =
+  | {
+      error: string;
+      values: {
+        title: string;
+        description: string;
+        locationName: string;
+        locationAddress: string;
+      };
+    }
+  | undefined;
+
+// _prevState is required by useActionState but unused here
+export async function createPost(
+  _prevState: CreatePostState,
+  formData: FormData,
+): Promise<CreatePostState> {
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) {
-    throw new Error("Authentication required");
+    return {
+      error: "Authentication required",
+      values: { title: "", description: "", locationName: "", locationAddress: "" },
+    };
   }
 
   const title = formData.get("title") as string;
@@ -58,15 +77,17 @@ export async function createPost(formData: FormData) {
   const locationName = formData.get("locationName") as string;
   const locationAddress = formData.get("locationAddress") as string;
 
+  const values = { title, description, locationName, locationAddress };
+
   // Validation
   if (!title || title.length > 100) {
-    throw new Error("Title must be between 1 and 100 characters");
+    return { error: "Title must be between 1 and 100 characters", values };
   }
   if (!description || description.length > 2000) {
-    throw new Error("Description must be between 1 and 2000 characters");
+    return { error: "Description must be between 1 and 2000 characters", values };
   }
   if (!locationName) {
-    throw new Error("Location name is required");
+    return { error: "Location name is required", values };
   }
 
   // Temporary placeId until Google Maps integration
