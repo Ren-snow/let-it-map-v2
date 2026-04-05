@@ -2,7 +2,7 @@
 
 import { useActionState, useRef, useState } from "react";
 import Link from "next/link";
-import { createPost, type CreatePostState } from "@/actions/post";
+import { createPost, type CreatePostState } from "@/features/post/server/actions";
 import { Modal } from "@/components/ui/Modal";
 
 export function CreatePostForm() {

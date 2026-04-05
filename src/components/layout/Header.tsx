@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
-import { SignInButton } from "@/components/features/SignInButton";
-import { SignOutButton } from "@/components/features/SignOutButton";
+import { SignInButton } from "@/features/auth/components/SignInButton";
+import { SignOutButton } from "@/features/auth/components/SignOutButton";
 
 function PinSvg({ className }: { className?: string }) {
   return (

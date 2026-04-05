@@ -1,6 +1,6 @@
 "use client";
 
-import { handleSignIn } from "@/actions/auth";
+import { handleSignIn } from "@/features/auth/server/actions";
 import { Modal } from "@/components/ui/Modal";
 
 function GoogleIcon({ className }: { className?: string }) {

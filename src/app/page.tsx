@@ -196,36 +196,6 @@ function FloatingPin({
   );
 }
 
-// function MockPin({
-//   x,
-//   y,
-//   label,
-//   delay = 0,
-// }: {
-//   x: string;
-//   y: string;
-//   label: string;
-//   delay?: number;
-// }) {
-//   return (
-//     <div
-//       className="absolute flex flex-col items-center"
-//       style={{ left: x, top: y }}
-//     >
-//       <div className="relative">
-//         <div
-//           className="absolute -inset-2 rounded-full bg-accent/30 animate-pulse-ring"
-//           style={{ animationDelay: `${delay}s` }}
-//         />
-//         <div className="relative h-3 w-3 rounded-full border-2 border-white bg-accent shadow-md" />
-//       </div>
-//       <span className="mt-1.5 whitespace-nowrap rounded-md bg-foreground/80 px-1.5 py-0.5 text-[9px] font-semibold text-white backdrop-blur-sm">
-//         {label}
-//       </span>
-//     </div>
-//   );
-// }
-
 /* ================================================================
    Page
    ================================================================ */
@@ -309,57 +279,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* App preview mockup */}
-        {/* <div className="relative z-10 mx-auto mt-16 w-full max-w-5xl px-4 animate-fade-in-up-delayed sm:mt-20">
-          <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-surface shadow-2xl shadow-foreground/5">
-            <div className="flex items-center gap-2 border-b border-border/60 bg-surface-alt/50 px-4 py-3">
-              <div className="flex gap-1.5">
-                <div
-                  className="h-3 w-3 rounded-full"
-                  style={{ background: "#FF5F57" }}
-                />
-                <div
-                  className="h-3 w-3 rounded-full"
-                  style={{ background: "#FEBC2E" }}
-                />
-                <div
-                  className="h-3 w-3 rounded-full"
-                  style={{ background: "#28C840" }}
-                />
-              </div>
-              <div className="ml-4 flex-1 rounded-lg bg-background px-4 py-1.5 text-xs font-medium text-faint">
-                letitmap.com/explore
-              </div>
-            </div>
-            <div className="flex h-56 sm:h-72 lg:h-80">
-              <div className="hidden w-56 border-r border-border/40 bg-surface p-4 lg:block">
-                <div className="mb-3 h-9 w-full rounded-lg bg-surface-alt/70" />
-                <div className="space-y-2.5">
-                  {[1, 2, 3].map((i) => (
-                    <div
-                      key={i}
-                      className="rounded-xl border border-border/50 p-3"
-                    >
-                      <div className="mb-2 h-2.5 w-3/4 rounded bg-surface-alt" />
-                      <div className="h-2 w-full rounded bg-surface-alt/60" />
-                      <div className="mt-1.5 h-2 w-1/2 rounded bg-surface-alt/40" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="relative flex-1 overflow-hidden bg-gradient-to-br from-secondary-light/40 via-background to-accent-light/20">
-                <div className="dot-grid absolute inset-0 opacity-20" />
-                <MockPin x="15%" y="30%" label="Liverpool" delay={0} />
-                <MockPin x="22%" y="42%" label="London" delay={0.8} />
-                <MockPin x="30%" y="28%" label="Hamburg" delay={1.6} />
-                <MockPin x="62%" y="35%" label="New York" delay={2.4} />
-                <MockPin x="82%" y="42%" label="Tokyo" delay={3.2} />
-              </div>
-            </div>
-          </div>
-          <div className="absolute -bottom-6 left-1/2 -z-10 h-12 w-3/4 -translate-x-1/2 rounded-full bg-accent/10 blur-3xl" />
-        </div> */}
-
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
           <svg
@@ -377,25 +296,6 @@ export default function Home() {
           </svg>
         </div>
       </section>
-
-      {/* ───── STATS STRIP ───── */}
-      {/* <section className="relative border-y border-border bg-surface-alt">
-        <div className="reveal-on-scroll mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-8 px-6 py-12 sm:py-16">
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="stagger-child min-w-[140px] flex-1 text-center"
-            >
-              <div className="font-serif text-3xl font-bold text-foreground sm:text-4xl">
-                {stat.value}
-              </div>
-              <div className="mt-1 text-sm font-medium text-muted">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section> */}
 
       {/* ───── FEATURES (Bento Grid) ───── */}
       <section id="features" className="px-6 py-24 bg-surface-alt sm:py-32">

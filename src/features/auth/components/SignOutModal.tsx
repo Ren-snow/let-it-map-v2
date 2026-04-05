@@ -1,6 +1,6 @@
 "use client";
 
-import { handleSignOut } from "@/actions/auth";
+import { handleSignOut } from "@/features/auth/server/actions";
 import { Modal } from "@/components/ui/Modal";
 
 export function SignOutModal({ onClose }: { onClose: () => void }) {

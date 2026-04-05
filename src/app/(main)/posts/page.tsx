@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { PlusIcon, FileText } from "lucide-react";
 import { auth } from "@/lib/auth";
-import { getPaginatedPosts } from "@/actions/post";
-import PostCard from "@/components/features/PostCard";
-import PostTabs from "@/components/features/PostTabs";
-import Pagination from "@/components/features/Pagination";
-import type { TabKey } from "@/components/features/PostTabs";
+import { getPaginatedPosts } from "@/features/post/server/queries";
+import PostCard from "@/features/post/components/PostCard";
+import PostTabs from "@/features/post/components/PostTabs";
+import Pagination from "@/features/post/components/Pagination";
+import type { TabKey } from "@/features/post/components/PostTabs";
 
 export default async function PostsPage({
   searchParams,

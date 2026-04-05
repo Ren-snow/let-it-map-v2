@@ -1,5 +1,5 @@
 import { MapPin } from "lucide-react";
-import type { PostWithDetails } from "@/types/post";
+import type { PostWithDetails } from "@/features/post/types";
 
 function getRelativeTime(date: Date): string {
   const now = Date.now();
