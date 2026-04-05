@@ -1,104 +1,90 @@
 import Link from "next/link";
-import { PlusIcon } from "lucide-react";
+import { PlusIcon, FileText } from "lucide-react";
+import { auth } from "@/lib/auth";
+import { getPaginatedPosts } from "@/actions/post";
+import PostCard from "@/components/features/PostCard";
+import PostTabs from "@/components/features/PostTabs";
+import Pagination from "@/components/features/Pagination";
+import type { TabKey } from "@/components/features/PostTabs";
 
-function PostCardSkeleton() {
+export default async function PostsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string; page?: string }>;
+}) {
+  const { tab, page } = await searchParams;
+  const currentTab: TabKey = tab === "mine" ? "mine" : "all";
+  const currentPage = Math.max(1, Number(page) || 1);
+  const session = await auth();
+
+  const showMine = currentTab === "mine" && !!session?.user;
+
+  const result = await getPaginatedPosts({
+    page: currentPage,
+    pageSize: 20,
+    userId: showMine ? session?.user?.id : undefined,
+  });
+
   return (
-    <article className="rounded-2xl border border-border bg-surface p-5">
-      {/* User row */}
-      <div className="mb-3 flex items-center gap-3">
-        <div className="h-8 w-8 rounded-full bg-surface-alt" />
-        <div className="flex flex-col gap-1">
-          <div className="h-3 w-20 rounded bg-surface-alt" />
-          <div className="h-2.5 w-14 rounded bg-surface-alt" />
-        </div>
-      </div>
-
-      {/* Title */}
-      <div className="mb-2 h-5 w-2/3 rounded bg-surface-alt" />
-
-      {/* Description */}
-      <div className="mb-4 space-y-1.5">
-        <div className="h-3.5 w-full rounded bg-surface-alt" />
-        <div className="h-3.5 w-4/5 rounded bg-surface-alt" />
-      </div>
-
-      {/* Location pill */}
-      <div className="flex items-center gap-2 rounded-lg bg-surface-alt px-3 py-2">
-        <svg
-          className="h-4 w-4 shrink-0 text-accent"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-          />
-        </svg>
-        <div className="min-w-0 flex-1 space-y-1">
-          <div className="h-3.5 w-28 rounded bg-background" />
-          <div className="h-2.5 w-40 rounded bg-background" />
-        </div>
-      </div>
-    </article>
-  );
-}
-
-export default function PostsPage() {
-  return (
-    <div className="space-y-14">
-      {/* Your Posts */}
-      <section>
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="font-serif text-2xl tracking-tight">Your Posts</h2>
-            <p className="mt-1 text-sm text-muted">
-              Places you have shared
-            </p>
-          </div>
-          <Link
-            href="/posts/create"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
-          >
-            <PlusIcon className="h-4 w-4" />
-            Add Post
-          </Link>
-        </div>
-
-        <div className="flex flex-col gap-5">
-          {[1, 2].map((i) => (
-            <PostCardSkeleton key={i} />
-          ))}
-        </div>
-      </section>
-
-      {/* Divider */}
-      <hr className="border-border" />
-
-      {/* Everyone's Posts */}
-      <section>
-        <div className="mb-6">
-          <h2 className="font-serif text-2xl tracking-tight">
-            {"Everyone's Posts"}
-          </h2>
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-serif text-3xl tracking-tight">Posts</h1>
           <p className="mt-1 text-sm text-muted">
             Discover places shared by the community
           </p>
         </div>
+        <Link
+          href="/posts/create"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+        >
+          <PlusIcon className="h-4 w-4" />
+          Add Post
+        </Link>
+      </div>
 
+      {/* Tabs */}
+      <PostTabs currentTab={currentTab} />
+
+      {/* Sign-in prompt for "Your Posts" when not logged in */}
+      {currentTab === "mine" && !session?.user && (
+        <div className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-surface py-16">
+          <FileText className="h-10 w-10 text-faint" />
+          <p className="text-sm text-muted">Sign in to see your posts</p>
+        </div>
+      )}
+
+      {/* Empty state */}
+      {(showMine || currentTab === "all") && result.data.length === 0 && (
+        <div className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-surface py-16">
+          <FileText className="h-10 w-10 text-faint" />
+          <p className="text-sm text-muted">
+            {showMine
+              ? "You haven't shared any places yet"
+              : "No posts yet. Be the first to share a place!"}
+          </p>
+          <Link
+            href="/posts/create"
+            className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+          >
+            <PlusIcon className="h-4 w-4" />
+            Create Post
+          </Link>
+        </div>
+      )}
+
+      {/* Post list */}
+      {result.data.length > 0 && (
         <div className="flex flex-col gap-5">
-          {[1, 2, 3].map((i) => (
-            <PostCardSkeleton key={i} />
+          {result.data.map((post) => (
+            <PostCard key={post.id} post={post} />
           ))}
         </div>
-      </section>
+      )}
+
+      {/* Pagination */}
+      <Pagination page={result.page} totalPages={result.totalPages} tab={currentTab} />
 
       {/* Divider */}
       <hr className="border-border" />

@@ -6,6 +6,13 @@ export type LocationData = {
   longitude: number;
 };
 
+export type PaginatedResult<T> = {
+  data: T[];
+  total: number;
+  page: number;
+  totalPages: number;
+};
+
 export type PostWithDetails = {
   id: string;
   title: string;
