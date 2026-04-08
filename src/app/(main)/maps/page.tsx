@@ -1,6 +1,6 @@
 import { getMapLocations } from "@/features/map/server/queries";
 import { MapProvider } from "@/features/map/components/MapProvider";
-import { MapView } from "@/features/map/components/MapView";
+import { MapWithDetail } from "@/features/map/components/MapWithDetail";
 
 export default async function MapsPage() {
   const locations = await getMapLocations();
@@ -13,11 +13,9 @@ export default async function MapsPage() {
           Explore places shared by the community
         </p>
       </div>
-      <div className="h-[60vh] overflow-hidden rounded-xl">
-        <MapProvider>
-          <MapView locations={locations} />
-        </MapProvider>
-      </div>
+      <MapProvider>
+        <MapWithDetail locations={locations} />
+      </MapProvider>
     </div>
   );
 }
