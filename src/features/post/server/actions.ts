@@ -15,6 +15,9 @@ export type CreatePostState =
         description: string;
         locationName: string;
         locationAddress: string;
+        placeId: string;
+        latitude: string;
+        longitude: string;
       };
     }
   | undefined;
@@ -34,6 +37,9 @@ export async function createPost(
         description: "",
         locationName: "",
         locationAddress: "",
+        placeId: "",
+        latitude: "",
+        longitude: "",
       },
     };
   }
@@ -42,8 +48,19 @@ export async function createPost(
   const description = formData.get("description") as string;
   const locationName = formData.get("locationName") as string;
   const locationAddress = formData.get("locationAddress") as string;
+  const placeId = formData.get("placeId") as string;
+  const latitude = formData.get("latitude") as string;
+  const longitude = formData.get("longitude") as string;
 
-  const values = { title, description, locationName, locationAddress };
+  const values = {
+    title,
+    description,
+    locationName,
+    locationAddress,
+    placeId,
+    latitude,
+    longitude,
+  };
 
   // Validation
   if (!title || title.length > 100) {
@@ -58,27 +75,39 @@ export async function createPost(
   if (!locationName) {
     return { error: "Location name is required", values };
   }
-
-  // Temporary placeId until Google Maps integration
-  const placeId = `temp_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+  if (!placeId || !latitude || !longitude) {
+    return { error: "Please select a location from the suggestions", values };
+  }
 
   await db.transaction(async (tx) => {
-    // Insert location
-    const [location] = await tx
-      .insert(locations)
-      .values({
-        placeId,
-        name: locationName,
-        address: locationAddress || locationName,
-        latitude: "0",
-        longitude: "0",
-      })
-      .returning({ id: locations.id });
+    const existing = await tx
+      .select({ id: locations.id })
+      .from(locations)
+      .where(eq(locations.placeId, placeId))
+      .limit(1);
+
+    let locationId: string;
+
+    if (existing.length > 0) {
+      locationId = existing[0].id;
+    } else {
+      const [location] = await tx
+        .insert(locations)
+        .values({
+          placeId,
+          name: locationName,
+          address: locationAddress || locationName,
+          latitude,
+          longitude,
+        })
+        .returning({ id: locations.id });
+      locationId = location.id;
+    }
 
     // Insert post
     await tx.insert(posts).values({
       userId,
-      locationId: location.id,
+      locationId,
       title,
       description,
     });

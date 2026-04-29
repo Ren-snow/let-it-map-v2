@@ -1,4 +1,5 @@
 import { CreatePostForm } from "@/features/post/components/CreatePostForm";
+import { MapProvider } from "@/features/map/components/MapProvider";
 
 export default function CreatePostPage() {
   return (
@@ -9,7 +10,9 @@ export default function CreatePostPage() {
           Share a place that matters to you
         </p>
       </div>
-      <CreatePostForm />
+      <MapProvider>
+        <CreatePostForm />
+      </MapProvider>
     </div>
   );
 }

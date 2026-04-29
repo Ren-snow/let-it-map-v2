@@ -4,6 +4,7 @@ import { useActionState, useRef, useState } from "react";
 import Link from "next/link";
 import { createPost, type CreatePostState } from "@/features/post/server/actions";
 import { Modal } from "@/components/ui/Modal";
+import { PlaceAutocompleteInput } from "@/features/post/components/PlaceAutocompleteInput";
 
 export function CreatePostForm() {
   const [state, formAction, isPending] = useActionState<
@@ -89,7 +90,7 @@ export function CreatePostForm() {
           </div>
 
           {/* Location Name */}
-          <div>
+          {/* <div>
             <label
               htmlFor="locationName"
               className="mb-1.5 block text-sm font-medium text-foreground"
@@ -105,10 +106,10 @@ export function CreatePostForm() {
               placeholder="e.g. Abbey Road, London"
               className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-faint transition-colors focus:border-accent focus:outline-none"
             />
-          </div>
+          </div> */}
 
           {/* Location Address */}
-          <div>
+          {/* <div>
             <label
               htmlFor="locationAddress"
               className="mb-1.5 block text-sm font-medium text-foreground"
@@ -124,7 +125,9 @@ export function CreatePostForm() {
               placeholder="e.g. 3 Abbey Road, St John's Wood, London NW8 9AY"
               className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-faint transition-colors focus:border-accent focus:outline-none"
             />
-          </div>
+          </div> */}
+
+          <PlaceAutocompleteInput defaultValue={state?.values?.locationName} />
         </div>
 
         {/* Actions */}
