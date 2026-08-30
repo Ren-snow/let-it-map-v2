@@ -8,6 +8,9 @@ export default defineConfig({
   out: "./drizzle",
   dialect: "postgresql",
   dbCredentials: {
-    url: process.env.DATABASE_URL!,
+    // DDL must go through the direct/session connection (port 5432).
+    // Supabase's transaction pooler (port 6543) rejects schema changes,
+    // so DATABASE_URL is only used by the app at runtime.
+    url: process.env.DIRECT_URL ?? process.env.DATABASE_URL!,
   },
 });

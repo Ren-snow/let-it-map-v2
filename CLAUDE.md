@@ -7,7 +7,7 @@ Let It Map — a location-sharing web app built with Next.js 16 (App Router).
 ## Tech Stack
 
 - **Framework:** Next.js 16, React 19, TypeScript 5
-- **DB:** Drizzle ORM + Neon PostgreSQL
+- **DB:** Drizzle ORM + Supabase PostgreSQL
 - **Auth:** NextAuth.js v5 (Google, GitHub OAuth)
 - **Styling:** Tailwind CSS v4 (no config file — self-configuring)
 - **Icons:** Lucide React
