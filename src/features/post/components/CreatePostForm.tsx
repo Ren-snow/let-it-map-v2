@@ -2,7 +2,10 @@
 
 import { useActionState, useRef, useState } from "react";
 import Link from "next/link";
-import { createPost, type CreatePostState } from "@/features/post/server/actions";
+import {
+  createPostAction,
+  type CreatePostState,
+} from "@/server/post/actions";
 import { Modal } from "@/components/ui/Modal";
 import { PlaceAutocompleteInput } from "@/features/post/components/PlaceAutocompleteInput";
 
@@ -10,7 +13,7 @@ export function CreatePostForm() {
   const [state, formAction, isPending] = useActionState<
     CreatePostState,
     FormData
-  >(createPost, undefined);
+  >(createPostAction, undefined);
   const formRef = useRef<HTMLFormElement>(null);
   const [preview, setPreview] = useState<{
     title: string;

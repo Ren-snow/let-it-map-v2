@@ -1,7 +1,7 @@
 "use client";
 
 import { StreetView } from "@/features/map/components/StreetView";
-import type { MapLocation } from "@/features/map/types";
+import type { MapLocation } from "@/server/map/types";
 
 export function LocationDetail({ location }: { location: MapLocation }) {
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { Map, AdvancedMarker, Pin } from "@vis.gl/react-google-maps";
-import type { MapLocation } from "@/features/map/types";
+import type { MapLocation } from "@/server/map/types";
 
 const DEFAULT_CENTER = { lat: 53.4084, lng: -2.9916 }; // Liverpool
 const DEFAULT_ZOOM = 8;

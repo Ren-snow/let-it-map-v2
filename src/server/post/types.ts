@@ -1,11 +1,3 @@
-export type LocationData = {
-  placeId: string;
-  name: string;
-  address: string;
-  latitude: number;
-  longitude: number;
-};
-
 export type PostWithDetails = {
   id: string;
   title: string;

@@ -1,4 +1,4 @@
-import { getMapLocations } from "@/features/map/server/queries";
+import { getMapLocations } from "@/server/map/queries";
 import { MapProvider } from "@/features/map/components/MapProvider";
 import { MapWithDetail } from "@/features/map/components/MapWithDetail";
 

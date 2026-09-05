@@ -1,46 +1,8 @@
 import { eq, desc, count } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { posts, locations, users } from "@/lib/db/schema";
-import type { PostWithDetails } from "@/features/post/types";
+import type { PostWithDetails } from "@/server/post/types";
 import type { PaginatedResult } from "@/types/common";
-
-export async function getPosts(userId?: string): Promise<PostWithDetails[]> {
-  const rows = await db
-    .select({
-      id: posts.id,
-      title: posts.title,
-      description: posts.description,
-      createdAt: posts.createdAt,
-      updatedAt: posts.updatedAt,
-      userName: users.name,
-      userId: users.id,
-      userImage: users.image,
-      locationName: locations.name,
-      locationAddress: locations.address,
-    })
-    .from(posts)
-    .innerJoin(users, eq(posts.userId, users.id))
-    .innerJoin(locations, eq(posts.locationId, locations.id))
-    .where(userId ? eq(posts.userId, userId) : undefined)
-    .orderBy(desc(posts.createdAt));
-
-  return rows.map((row) => ({
-    id: row.id,
-    title: row.title,
-    description: row.description,
-    createdAt: row.createdAt,
-    updatedAt: row.updatedAt,
-    user: {
-      id: row.userId,
-      name: row.userName,
-      image: row.userImage,
-    },
-    location: {
-      name: row.locationName,
-      address: row.locationAddress,
-    },
-  }));
-}
 
 export async function getPaginatedPosts({
   page = 1,

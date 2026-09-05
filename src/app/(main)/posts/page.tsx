@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PlusIcon, FileText } from "lucide-react";
 import { auth } from "@/lib/auth";
-import { getPaginatedPosts } from "@/features/post/server/queries";
+import { getPaginatedPosts } from "@/server/post/queries";
 import PostCard from "@/features/post/components/PostCard";
 import PostTabs from "@/features/post/components/PostTabs";
 import Pagination from "@/features/post/components/Pagination";
