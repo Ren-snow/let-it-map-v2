@@ -26,7 +26,7 @@ export default async function PostsPage({
   });
 
   return (
-    <div className="space-y-8">
+    <div className="mx-auto max-w-3xl space-y-8 px-5 py-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -86,37 +86,6 @@ export default async function PostsPage({
       {/* Pagination */}
       <Pagination page={result.page} totalPages={result.totalPages} tab={currentTab} />
 
-      {/* Divider */}
-      <hr className="border-border" />
-
-      {/* Map */}
-      <section>
-        <div className="mb-6">
-          <h2 className="font-serif text-2xl tracking-tight">Map</h2>
-          <p className="mt-1 text-sm text-muted">
-            All posts on the map
-          </p>
-        </div>
-
-        <div className="flex aspect-4/3 items-center justify-center rounded-2xl border border-border bg-surface-alt">
-          <div className="flex flex-col items-center gap-2 text-faint">
-            <svg
-              className="h-10 w-10"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 6.75V15m6-6v8.25m.503-11.307 3.746-1.46a.75.75 0 0 1 .997.707v9.56a.75.75 0 0 1-.497.707l-5.25 2.044a.75.75 0 0 1-.553 0l-5.25-2.044a.75.75 0 0 1-.497-.707V3.697a.75.75 0 0 1 .997-.707l3.746 1.46a.75.75 0 0 0 .558 0Z"
-              />
-            </svg>
-            <span className="text-sm">Google Maps</span>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

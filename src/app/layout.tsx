@@ -1,8 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -21,6 +19,14 @@ export const metadata: Metadata = {
     "Pin legendary spots on the map, share your stories, and explore a world of Beatles fan experiences.",
 };
 
+// viewportFit: "cover" lets the layout extend under the iOS home indicator,
+// which is what --safe-bottom then pads back.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,9 +37,7 @@ export default function RootLayout({
       <body
         className={`${plusJakarta.variable} ${dmSerif.variable} font-sans antialiased`}
       >
-        <Header />
-        <main className="pt-header">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

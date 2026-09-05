@@ -76,6 +76,8 @@ export async function createPostAction(
 
   await createPost(userId, parsed.data);
 
+  // "/" is the map screen and is prerendered, so a new pin needs it invalidated too.
+  revalidatePath("/");
   revalidatePath("/posts");
   redirect("/posts");
 }

@@ -26,33 +26,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   pages: {
-    signIn: "/login",
+    signIn: "/welcome",
   },
   callbacks: {
     authorized({ auth, request }) {
       const pathname = request.nextUrl.pathname;
-      const isPublicPath =
-        pathname === "/" ||
-        pathname === "/login" ||
-        pathname === "/signup" ||
-        pathname.startsWith("/api/auth");
 
-      if (isPublicPath) {
-        return true;
-      }
+      // Everything is public by default — the map, the feed and the profile tab
+      // are reachable signed out, for discovery and SEO. Screens that need an
+      // account render their own sign-in prompt; only writes are gated here.
+      const protectedPaths = ["/posts/create"];
 
-      // 精査必要、一旦仮で配置
-      const isRestrictedPath =
-        pathname === "/posts/me" ||
-        pathname === "/posts/new" ||
-        pathname.startsWith("/posts/user") ||
-        pathname.startsWith("/posts/edit");
+      const isProtected = protectedPaths.some(
+        (path) => pathname === path || pathname.startsWith(`${path}/`),
+      );
 
-      if (isRestrictedPath) {
-        return !!auth?.user;
-      }
-
-      return true;
+      return isProtected ? !!auth?.user : true;
     },
   },
 

@@ -25,7 +25,8 @@ Let It Map — a location-sharing web app built with Next.js 16 (App Router).
 
 ```
 src/
-├── app/              # Routes (App Router, route groups like (main))
+├── app/              # Routes — (app) = full-screen shell + TabBar,
+│                     #          (marketing) = Header + Footer
 ├── components/       # Shared UI components (layout/, ui/)
 ├── server/           # Domain layer — all business logic & DB access
 │   ├── schema/           # Zod input schemas
@@ -53,6 +54,7 @@ src/
 - **Mutations:** Domain logic goes in `server/*/mutations.ts`; the `"use server"` adapter in `server/*/actions.ts` handles auth, Zod parsing, and `revalidatePath`/`redirect`, and is called from Client Components. Suffix actions with `Action` (`createPostAction`).
 - **Validation:** Parse all external input with a Zod schema from `server/schema/` at the adapter boundary. Never cast `FormData` values with `as string`.
 - **Form state:** Use React 19 `useActionState` hook to connect forms to Server Actions — provides `[state, formAction, isPending]`.
+- **App shell:** `(app)` screens are full screen with a bottom `TabBar`; size them with `--app-height` (`100dvh` minus the tab bar), never `h-screen`/`vh`. `(marketing)` keeps the Header/Footer website chrome.
 - **Styling:** Tailwind utility classes. Custom design tokens defined in `globals.css` (Burnt Sienna accent, Forest Teal secondary, warm stone palette).
 - **DB schema:** Defined in `src/lib/db/schema.ts`. UUIDs for primary keys, snake_case column names, cascade deletes on foreign keys.
 - **Types:** Domain types in `server/*/types.ts`, shared types in `types/common.ts`. UI-only types stay in the component file.

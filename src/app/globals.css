@@ -28,6 +28,13 @@
   /* Layout */
   --header-height: 5rem;
   --footer-height: 5rem;
+
+  /* App shell — bottom navigation and iOS safe area */
+  --nav-height: 4rem;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  /* Viewport height available to a screen once the tab bar is subtracted.
+     dvh (not vh) so the iOS Safari address bar does not clip the layout. */
+  --app-height: calc(100dvh - var(--nav-height) - var(--safe-bottom));
 }
 
 /* ===== Tailwind v4 Theme Registration ===== */
@@ -51,6 +58,7 @@
   --font-serif: var(--font-dm-serif);
   --spacing-header: var(--header-height);
   --spacing-footer: var(--footer-height);
+  --spacing-nav: calc(var(--nav-height) + var(--safe-bottom));
 }
 
 /* ===== Base Styles ===== */
