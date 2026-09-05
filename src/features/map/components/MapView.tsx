@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { Map, AdvancedMarker, Pin, useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
+import type { MapEvent } from "@vis.gl/react-google-maps";
 import type { PlaceDetails } from "@/hooks/usePlacePredictions";
 import type { MapLocation } from "@/server/map/types";
 
@@ -81,12 +82,14 @@ export function MapView({
   onSelect,
   focus,
   bottomInset,
+  onBoundsChange,
 }: {
   locations: MapLocation[];
   selected: MapLocation | null;
   onSelect: (location: MapLocation) => void;
   focus: PlaceDetails | null;
   bottomInset: number;
+  onBoundsChange: (bounds: google.maps.LatLngBoundsLiteral | null) => void;
 }) {
   return (
     <Map
@@ -96,6 +99,8 @@ export function MapView({
       gestureHandling="greedy"
       disableDefaultUI
       mapId={MAP_ID}
+      // idle fires once the camera settles, so this does not run mid-gesture.
+      onIdle={(e: MapEvent) => onBoundsChange(e.map.getBounds()?.toJSON() ?? null)}
     >
       <MapCamera
         locations={locations}

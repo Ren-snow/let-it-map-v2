@@ -10,11 +10,29 @@ import { useBottomSheet } from "@/features/map/hooks/useBottomSheet";
 import type { PlaceDetails } from "@/hooks/usePlacePredictions";
 import type { MapLocation } from "@/server/map/types";
 
+/** Longitude ranges wrap at the antimeridian; latitude never does. */
+function isWithin(
+  location: MapLocation,
+  bounds: google.maps.LatLngBoundsLiteral,
+) {
+  const { north, south, east, west } = bounds;
+  const inLatitude = location.latitude >= south && location.latitude <= north;
+  const inLongitude =
+    west <= east
+      ? location.longitude >= west && location.longitude <= east
+      : location.longitude >= west || location.longitude <= east;
+
+  return inLatitude && inLongitude;
+}
+
 export function MapScreen({ locations }: { locations: MapLocation[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [viewportHeight, setViewportHeight] = useState(0);
   const [selected, setSelected] = useState<MapLocation | null>(null);
   const [focus, setFocus] = useState<PlaceDetails | null>(null);
+  const [bounds, setBounds] = useState<google.maps.LatLngBoundsLiteral | null>(
+    null,
+  );
 
   const sheet = useBottomSheet(viewportHeight);
 
@@ -43,7 +61,12 @@ export function MapScreen({ locations }: { locations: MapLocation[] }) {
   // Dragging the sheet down to peek means "I'm done with this place".
   const activeLocation = sheet.snap === "peek" ? null : selected;
 
-  const areaPostCount = locations.reduce(
+  // What the map is actually showing right now — this is the "area".
+  const visibleLocations = bounds
+    ? locations.filter((location) => isWithin(location, bounds))
+    : locations;
+
+  const areaPostCount = visibleLocations.reduce(
     (total, location) => total + location.posts.length,
     0,
   );
@@ -57,6 +80,7 @@ export function MapScreen({ locations }: { locations: MapLocation[] }) {
           onSelect={selectLocation}
           focus={focus}
           bottomInset={sheet.visibleHeight}
+          onBoundsChange={setBounds}
         />
       </div>
 
@@ -81,7 +105,9 @@ export function MapScreen({ locations }: { locations: MapLocation[] }) {
 
       <LocationSheet
         location={activeLocation}
+        areaLocations={visibleLocations}
         areaPostCount={areaPostCount}
+        onSelectLocation={selectLocation}
         snap={sheet.snap}
         sheetHeight={sheet.sheetHeight}
         translate={sheet.translate}
