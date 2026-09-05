@@ -7,6 +7,7 @@ export async function getMapLocations(): Promise<MapLocation[]> {
   const rows = await db
     .select({
       locationId: locations.id,
+      placeId: locations.placeId,
       locationName: locations.name,
       latitude: locations.latitude,
       longitude: locations.longitude,
@@ -33,6 +34,7 @@ export async function getMapLocations(): Promise<MapLocation[]> {
     } else {
       locationMap.set(row.locationId, {
         id: row.locationId,
+        placeId: row.placeId,
         name: row.locationName,
         latitude: Number(row.latitude),
         longitude: Number(row.longitude),

@@ -1,5 +1,6 @@
 export type MapLocation = {
   id: string;
+  placeId: string;
   name: string;
   latitude: number;
   longitude: number;

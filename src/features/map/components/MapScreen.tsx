@@ -1,0 +1,93 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { Plus } from "lucide-react";
+import { MapView } from "@/features/map/components/MapView";
+import { MapSearchBar } from "@/features/map/components/MapSearchBar";
+import { LocationSheet } from "@/features/map/components/LocationSheet";
+import { useBottomSheet } from "@/features/map/hooks/useBottomSheet";
+import type { PlaceDetails } from "@/hooks/usePlacePredictions";
+import type { MapLocation } from "@/server/map/types";
+
+export function MapScreen({ locations }: { locations: MapLocation[] }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [viewportHeight, setViewportHeight] = useState(0);
+  const [selected, setSelected] = useState<MapLocation | null>(null);
+  const [focus, setFocus] = useState<PlaceDetails | null>(null);
+
+  const sheet = useBottomSheet(viewportHeight);
+
+  useEffect(() => {
+    const element = containerRef.current;
+    if (!element) return;
+    const observer = new ResizeObserver(([entry]) =>
+      setViewportHeight(entry.contentRect.height),
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  function selectLocation(location: MapLocation) {
+    setSelected(location);
+    sheet.setSnap("half");
+  }
+
+  function handleSearch(place: PlaceDetails) {
+    setFocus(place);
+    // Searching for a place we already have posts for opens it directly.
+    const match = locations.find((l) => l.placeId === place.placeId);
+    if (match) selectLocation(match);
+  }
+
+  // Dragging the sheet down to peek means "I'm done with this place".
+  const activeLocation = sheet.snap === "peek" ? null : selected;
+
+  const areaPostCount = locations.reduce(
+    (total, location) => total + location.posts.length,
+    0,
+  );
+
+  return (
+    <div ref={containerRef} className="relative h-full w-full overflow-hidden">
+      <div className="absolute inset-0">
+        <MapView
+          locations={locations}
+          selected={activeLocation}
+          onSelect={selectLocation}
+          focus={focus}
+          bottomInset={sheet.visibleHeight}
+        />
+      </div>
+
+      <MapSearchBar onSelect={handleSearch} />
+
+      {/* Primary action, kept above the sheet and out of the way when it is open */}
+      <Link
+        href="/posts/create"
+        aria-label="Create a post"
+        style={{
+          bottom: sheet.visibleHeight + 16,
+          transition: sheet.isDragging
+            ? "none"
+            : "bottom 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 200ms",
+        }}
+        className={`absolute right-4 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-accent text-white shadow-lg shadow-accent/25 transition-colors hover:bg-accent-hover ${
+          sheet.snap === "full" ? "pointer-events-none opacity-0" : "opacity-100"
+        }`}
+      >
+        <Plus className="h-6 w-6" />
+      </Link>
+
+      <LocationSheet
+        location={activeLocation}
+        areaPostCount={areaPostCount}
+        snap={sheet.snap}
+        sheetHeight={sheet.sheetHeight}
+        translate={sheet.translate}
+        isDragging={sheet.isDragging}
+        dragHandlers={sheet.dragHandlers}
+      />
+    </div>
+  );
+}

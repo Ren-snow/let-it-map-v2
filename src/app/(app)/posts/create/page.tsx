@@ -1,7 +1,34 @@
 import { CreatePostForm } from "@/features/post/components/CreatePostForm";
 import { MapProvider } from "@/features/map/components/MapProvider";
+import type { PlaceDetails } from "@/hooks/usePlacePredictions";
 
-export default function CreatePostPage() {
+type PlaceParams = {
+  placeId?: string;
+  name?: string;
+  address?: string;
+  lat?: string;
+  lng?: string;
+};
+
+/** "Post here" on the map sheet arrives with the place already chosen. */
+function readPlace(params: PlaceParams): PlaceDetails | null {
+  const { placeId, name, address, lat, lng } = params;
+  if (!placeId || !name || !lat || !lng) return null;
+
+  const latitude = Number(lat);
+  const longitude = Number(lng);
+  if (Number.isNaN(latitude) || Number.isNaN(longitude)) return null;
+
+  return { placeId, name, address: address ?? "", lat: latitude, lng: longitude };
+}
+
+export default async function CreatePostPage({
+  searchParams,
+}: {
+  searchParams: Promise<PlaceParams>;
+}) {
+  const initialPlace = readPlace(await searchParams);
+
   return (
     <div className="mx-auto max-w-2xl px-5 py-8">
       <div className="mb-8">
@@ -11,7 +38,7 @@ export default function CreatePostPage() {
         </p>
       </div>
       <MapProvider>
-        <CreatePostForm />
+        <CreatePostForm initialPlace={initialPlace} />
       </MapProvider>
     </div>
   );

@@ -1,6 +1,6 @@
 import { getMapLocations } from "@/server/map/queries";
 import { MapProvider } from "@/features/map/components/MapProvider";
-import { MapWithDetail } from "@/features/map/components/MapWithDetail";
+import { MapScreen } from "@/features/map/components/MapScreen";
 
 /**
  * Launch screen. The map is the background layer; everything else floats on it.
@@ -11,7 +11,7 @@ export default async function MapPage() {
   return (
     <div className="h-[var(--app-height)] w-full">
       <MapProvider>
-        <MapWithDetail locations={locations} />
+        <MapScreen locations={locations} />
       </MapProvider>
     </div>
   );

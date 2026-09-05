@@ -8,8 +8,13 @@ import {
 } from "@/server/post/actions";
 import { Modal } from "@/components/ui/Modal";
 import { PlaceAutocompleteInput } from "@/features/post/components/PlaceAutocompleteInput";
+import type { PlaceDetails } from "@/hooks/usePlacePredictions";
 
-export function CreatePostForm() {
+export function CreatePostForm({
+  initialPlace,
+}: {
+  initialPlace?: PlaceDetails | null;
+}) {
   const [state, formAction, isPending] = useActionState<
     CreatePostState,
     FormData
@@ -22,6 +27,18 @@ export function CreatePostForm() {
     locationAddress: string;
   } | null>(null);
   const confirmed = useRef(false);
+
+  // After a rejected submit, restore the place the user had already picked
+  // instead of making them search for it again.
+  const seededPlace: PlaceDetails | null = state?.values?.placeId
+    ? {
+        placeId: state.values.placeId,
+        name: state.values.locationName,
+        address: state.values.locationAddress,
+        lat: Number(state.values.latitude),
+        lng: Number(state.values.longitude),
+      }
+    : (initialPlace ?? null);
 
   return (
     <>
@@ -130,7 +147,7 @@ export function CreatePostForm() {
             />
           </div> */}
 
-          <PlaceAutocompleteInput defaultValue={state?.values?.locationName} />
+          <PlaceAutocompleteInput initialPlace={seededPlace} />
         </div>
 
         {/* Actions */}
