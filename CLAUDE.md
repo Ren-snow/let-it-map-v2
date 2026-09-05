@@ -20,6 +20,7 @@ Let It Map — a location-sharing web app built with Next.js 16 (App Router).
 - `npm run lint` — ESLint
 - `npx drizzle-kit push` — Push schema changes to DB
 - `npx drizzle-kit generate` — Generate migrations
+- `npm run db:seed` — Load development data (idempotent; leaves non-seed rows alone)
 
 ## Project Structure
 
