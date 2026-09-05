@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { MapPin } from "lucide-react";
 import type { PostWithDetails } from "@/server/post/types";
 
@@ -24,7 +25,10 @@ export default function PostCard({ post }: { post: PostWithDetails }) {
     : "?";
 
   return (
-    <article className="rounded-2xl border border-border bg-surface p-5">
+    <Link
+      href={`/posts/${post.id}`}
+      className="block rounded-2xl border border-border bg-surface p-5 transition-all hover:-translate-y-0.5 hover:border-accent/20 hover:shadow-lg"
+    >
       {/* User row */}
       <div className="mb-3 flex items-center gap-3">
         {post.user.image ? (
@@ -72,6 +76,6 @@ export default function PostCard({ post }: { post: PostWithDetails }) {
           )}
         </div>
       </div>
-    </article>
+    </Link>
   );
 }

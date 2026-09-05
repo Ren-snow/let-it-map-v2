@@ -112,14 +112,16 @@ export function LocationSheet({
             </h3>
             <ul className="mt-2 space-y-2">
               {location.posts.map((post) => (
-                <li
-                  key={post.id}
-                  className="rounded-xl border border-border bg-background p-3"
-                >
-                  <p className="font-medium">{post.title}</p>
-                  {post.userName && (
-                    <p className="mt-1 text-sm text-muted">by {post.userName}</p>
-                  )}
+                <li key={post.id}>
+                  <Link
+                    href={`/posts/${post.id}`}
+                    className="block rounded-xl border border-border bg-background p-3 transition-colors hover:bg-foreground/5"
+                  >
+                    <p className="font-medium">{post.title}</p>
+                    {post.userName && (
+                      <p className="mt-1 text-sm text-muted">by {post.userName}</p>
+                    )}
+                  </Link>
                 </li>
               ))}
             </ul>
